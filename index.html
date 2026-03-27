@@ -30,15 +30,24 @@
 .modal-desc a:hover {
   opacity: 0.7;
 }
-.modal-gallery-img iframe {
+img {
   width: 100%;
-  height: 100%;
-  border: none;
-}
-.nav-logo svg {
   height: auto;
+}
+#nav {
+  height: 70px; /* define altura da navbar */
+}
+
+#nav img {
+  height: 40px;
   width: auto;
 }
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+.nav-logo img { transition: filter 0.25s ease; }
+.nav-logo img:hover { filter: brightness(0) invert(1) opacity(0.94); }
     }
 
     /* ============================
@@ -130,11 +139,7 @@
       background: rgba(8,8,8,0.92);
       backdrop-filter: blur(14px);
     }
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 22px;
-      letter-spacing: 0.05em;
-    }
+   
     .nav-logo span { color: var(--accent); }
 
     .nav-toggle {
@@ -491,28 +496,44 @@
       .modal-close { top: 16px; right: 16px; }
     }
 
-    .modal-gallery {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .modal-gallery-img {
-      overflow: hidden;
-      background: var(--bg3);
-      aspect-ratio: 4/3;
-    }
-    .modal-gallery-img:first-child {
-      grid-column: span 2;
-      aspect-ratio: 16/9;
-    }
-    .modal-gallery-img img {
-      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-    }
-    .modal-gallery-img:hover img { transform: scale(1.04); }
-    @media (max-width: 540px) {
-      .modal-gallery { grid-template-columns: 1fr; }
-      .modal-gallery-img:first-child { grid-column: span 1; }
-    }
+    .modal-gallery { display: flex; flex-direction: column; gap: 10px; }
+
+.modal-main-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--bg3);
+}
+.modal-main-img img,
+.modal-main-img iframe {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.modal-main-img:hover img { transform: scale(1.03); }
+
+.modal-thumbs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.modal-thumb {
+  width: 80px; height: 60px;
+  overflow: hidden;
+  background: var(--bg3);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, opacity 0.2s;
+  flex-shrink: 0;
+}
+.modal-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.modal-thumb:hover { opacity: 0.75; }
+.modal-thumb.active { border-color: var(--accent); 
+}
 
     .modal-info { display: flex; flex-direction: column; gap: 28px; }
     .modal-desc {
@@ -537,6 +558,7 @@
       margin-bottom: 6px;
     }
     .modal-info p { font-size: 19px; color: var(--fg-muted); line-height: 1.7; }
+.modal-info .credits-text { font-size: 13px; color: var(--fg-muted); line-height: 1.6; }
 
     /* ============================
        MARQUEE
@@ -699,16 +721,22 @@
        NAV
   ============================ -->
   <nav id="nav">
+ <div class="nav-logo">
+  <a href="#" aria-label="Ir para o topo">
     <img src="assets/logo/logo-doone_2026.svg" alt="Doone Logo">
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#trabalhos" class="nav-link-item">Trabalhos</a></li>
-      <li><a href="#sobre"     class="nav-link-item">Sobre</a></li>
-      <li><a href="#contato"   class="nav-link-item">Contato</a></li>
-    </ul>
-  </nav>
+  </a>
+</div>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#trabalhos" class="nav-link-item">Trabalhos</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
 
   <!-- ============================
        HERO
@@ -986,10 +1014,11 @@
         tags: ['Collab', 'Escultura', 'Spray', 'Arte Urbana'],
         credits: 'Fotos e vídeo: <a href="https://www.pahnl.co.uk/" target="_blank" rel="noopener noreferrer">Pahnl</a>. Dimensões: 75 × 21.2 × 4cm',
         images: [
-          'https://i.imgur.com/G1V8DC6.jpeg',
-          'https://i.imgur.com/7ILPdsV.jpeg',
-          'https://i.imgur.com/9hBiOyw.jpeg',
-          'https://i.imgur.com/FizftT4.jpeg',
+         'https://raw.githubusercontent.com/rafaeldoone/portfolio/main/images/sinergia-pahnl/sinergia_wide.webp',
+         'https://raw.githubusercontent.com/rafaeldoone/portfolio/main/images/sinergia-pahnl/sinergia_detail1.webp',
+         'https://raw.githubusercontent.com/rafaeldoone/portfolio/main/images/sinergia-pahnl/sinergia_detail2.webp',
+         'https://raw.githubusercontent.com/rafaeldoone/portfolio/main/images/sinergia-pahnl/sinergia_detail3.webp',
+         'https://raw.githubusercontent.com/rafaeldoone/portfolio/main/images/sinergia-pahnl/sinergia_reverse.webp',
           { type: 'youtube', id: 'JpRuClwesPQ' },
                  ]
       },
@@ -1014,13 +1043,19 @@
         title: 'Logofolio',
         meta: '2016 – presente · Branding & Identidade Visual',
         desc: 'Ao longo da minha trajetória, desenvolvi logos para clientes de diversos setores — sempre buscando refletir a essência de cada marca. Este logofolio reúne projetos que combinam criatividade, estratégia e identidade visual forte.',
-        tags: ['Logo', 'Branding', 'Identidade Visual', 'Tipografia'],
+        tags: ['Logo', 'Branding', 'Identidade Visual', 'Tipografia', 'Lettering'],
         credits: '',
         images: [
-          'https://framerusercontent.com/images/BpW6QnHMx3UpOcz7yPrWrTk3JA.webp',
-          'https://framerusercontent.com/images/byBqDPSR7T8aZjr3Wy1Luv2daLE.webp',
-          'https://framerusercontent.com/images/C1ED7MdW8ltnQ3jEOnEQbbA0.webp',
-          'https://framerusercontent.com/images/F4s7h9x6I93vvavGBBFpcJJdzJ4.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-bunch.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-cwb.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-lf.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-lj.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-natlee.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-oltre.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-thamara.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-toranja.webp',
+          'https://github.com/rafaeldoone/portfolio/blob/main/images/logofolio/logos-vg.webp',
+          
         ]
       },
     ];
@@ -1044,33 +1079,51 @@
       mTitle.textContent  = p.title;
       mMeta.textContent   = p.meta;
 
-    mGallery.innerHTML = p.images.map((item, i) => {
-  // se for vídeo
-  if (typeof item === 'object' && item.type === 'youtube') {
-    return `
-      <div class="modal-gallery-img">
-        <iframe 
-          src="https://www.youtube.com/embed/${item.id}" 
-          title="${p.title} — vídeo"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-    `;
-  }
+    // limpa a galeria antes de carregar o novo projeto
+mGallery.innerHTML = '';
 
-  // se for imagem
-  return `
-    <div class="modal-gallery-img">
-      <img src="${item}" alt="${p.title} — foto ${i+1}" loading="lazy"/>
-    </div>
-  `;
-}).join('');
+      // imagem principal
+var mainDiv = document.createElement('div');
+mainDiv.className = 'modal-main-img';
+mainDiv.id = 'modalMainImg';
+var firstItem = p.images[0];
+if (typeof firstItem === 'object' && firstItem.type === 'youtube') {
+  mainDiv.innerHTML = '<iframe src="https://www.youtube.com/embed/' + firstItem.id + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+} else {
+  mainDiv.innerHTML = '<img src="' + firstItem + '" alt="' + p.title + ' — foto 1"/>';
+}
+mGallery.appendChild(mainDiv);
+
+// thumbnails clicáveis
+if (p.images.length > 1) {
+  var thumbsDiv = document.createElement('div');
+  thumbsDiv.className = 'modal-thumbs';
+  p.images.forEach(function(item, i) {
+    var thumb = document.createElement('div');
+    thumb.className = 'modal-thumb' + (i === 0 ? ' active' : '');
+    if (typeof item === 'object' && item.type === 'youtube') {
+      thumb.innerHTML = '<img src="https://img.youtube.com/vi/' + item.id + '/mqdefault.jpg" alt="video ' + (i+1) + '"/>';
+    } else {
+      thumb.innerHTML = '<img src="' + item + '" alt="' + p.title + ' ' + (i+1) + '"/>';
+    }
+    thumb.addEventListener('click', function() {
+      var mainEl = document.getElementById('modalMainImg');
+      if (typeof item === 'object' && item.type === 'youtube') {
+        mainEl.innerHTML = '<iframe src="https://www.youtube.com/embed/' + item.id + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      } else {
+        mainEl.innerHTML = '<img src="' + item + '" alt="' + p.title + ' ' + (i+1) + '"/>';
+      }
+      thumbsDiv.querySelectorAll('.modal-thumb').forEach(function(t) { t.classList.remove('active'); });
+      thumb.classList.add('active');
+    });
+    thumbsDiv.appendChild(thumb);
+  });
+  mGallery.appendChild(thumbsDiv);
+}
 
       const tagsHTML    = p.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
       const creditsHTML = p.credits
-        ? `<div><h4>Créditos</h4><p>${p.credits}</p></div>`
+        ? `<div><h4>Créditos</h4><p class="credits-text">${p.credits}</p></div>`
         : '';
       mInfo.innerHTML = `
         <p class="modal-desc">${p.desc}</p>
