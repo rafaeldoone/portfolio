@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -31,20 +30,13 @@
 .modal-desc a:hover {
   opacity: 0.7;
 }
-img {
+.modal-gallery-img iframe {
   width: 100%;
+  height: 100%;
+  border: none;
+}
+.nav-logo svg {
   height: auto;
-}
-.nav-logo {
-  display: flex;
-  align-items: center;
-}
-#nav {
-  height: 70px; /* define altura da navbar */
-}
-
-#nav img {
-  height: 40px;
   width: auto;
 }
     }
@@ -706,22 +698,17 @@ img {
   <!-- ============================
        NAV
   ============================ -->
-  <div class="nav-logo">
-  <a href="#hero">
-    <img src="assets/logo/logo-default.svg" alt="Doone Logo">
-  </a>
-</div>
-
-  <button class="nav-toggle" id="navToggle" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#trabalhos" class="nav-link-item">Trabalhos</a></li>
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#contato">Contato</a></li>
-  </ul>
-</nav>
+  <nav id="nav">
+    <img src="assets/logo/logo-doone_2026.svg" alt="Doone Logo">
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#trabalhos" class="nav-link-item">Trabalhos</a></li>
+      <li><a href="#sobre"     class="nav-link-item">Sobre</a></li>
+      <li><a href="#contato"   class="nav-link-item">Contato</a></li>
+    </ul>
+  </nav>
 
   <!-- ============================
        HERO
@@ -943,23 +930,6 @@ img {
          3. Preencha as demais infos
          4. Em "images", coloque as URLs das fotos (a 1ª fica em destaque)
     ============================================== */
-  const logo = document.querySelector('.logo-img');
-  const defaultSrc = logo.src;
-  const hoverSrc = logo.dataset.hover;
-
-  logo.addEventListener('mouseenter', () => {
-    logo.src = hoverSrc;
-  });
-
-  logo.addEventListener('mouseleave', () => {
-    logo.src = defaultSrc;
-  });
-
-const logo = document.querySelector('.logo-img');
-const defaultSrc = logo.src;
-const hoverSrc = logo.dataset.hover;
-
-</script>
     const PROJECTS = [
       {
         id: 'netflix-sintonia',
@@ -1016,18 +986,10 @@ const hoverSrc = logo.dataset.hover;
         tags: ['Collab', 'Escultura', 'Spray', 'Arte Urbana'],
         credits: 'Fotos e vídeo: <a href="https://www.pahnl.co.uk/" target="_blank" rel="noopener noreferrer">Pahnl</a>. Dimensões: 75 × 21.2 × 4cm',
         images: [
-          // ➡ COMO USAR IMAGENS DO GITHUB:
-          // 1. Faça upload da imagem no seu repositório GitHub
-          //    (ex: na pasta "assets/projetos/pahnl/")
-          // 2. Abra a imagem no GitHub e clique em "Raw" (botão no topo direito)
-          // 3. Copie a URL — ela será assim:
-          //    https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPO/main/assets/projetos/pahnl/foto1.jpg
-          // 4. Cole essa URL aqui entre aspas, como nos exemplos abaixo:
-          'https://github.com/rafaeldoone/portfolio/blob/main/images/sinergia-pahnl/sinergia_wide.webp',
-          'https://github.com/rafaeldoone/portfolio/blob/main/images/sinergia-pahnl/sinergia_detail1.webp',
-          'https://github.com/rafaeldoone/portfolio/blob/main/images/sinergia-pahnl/sinergia_detail2.webp',
-          'https://github.com/rafaeldoone/portfolio/blob/main/images/sinergia-pahnl/sinergia_detail3.webp',
-          'https://github.com/rafaeldoone/portfolio/blob/main/images/sinergia-pahnl/sinergia_reverse.webp',
+          'https://i.imgur.com/G1V8DC6.jpeg',
+          'https://i.imgur.com/7ILPdsV.jpeg',
+          'https://i.imgur.com/9hBiOyw.jpeg',
+          'https://i.imgur.com/FizftT4.jpeg',
           { type: 'youtube', id: 'JpRuClwesPQ' },
                  ]
       },
