@@ -155,7 +155,6 @@ img {
 }
 nav.scrolled {
   background: rgba(8,8,8,0.97);
-  z-index: 600;
 }
    
     .nav-logo span { color: var(--accent); }
@@ -181,10 +180,11 @@ nav.scrolled {
     .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
     .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  position: relative;
+}
     .nav-links a {
       font-size: 11px;
       letter-spacing: 0.15em;
@@ -192,9 +192,6 @@ nav.scrolled {
       color: var(--fg-muted);
       transition: color 0.2s;
       position: relative;
-    }
-    .nav-links a::after {
-      display: none;
     }
     .nav-links a:hover { color: var(--fg); }
 
@@ -209,7 +206,7 @@ nav.scrolled {
 
     @media (max-width: 768px) {
   nav { padding: 16px 20px; }
-  .nav-toggle { display: flex; z-index: 610; }
+  .nav-toggle { display: flex; position: fixed; top: 24px; right: 20px; z-index: 620; }
   .nav-links {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -233,24 +230,16 @@ nav.scrolled {
     ============================ */
     #hero {
       min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 40px 56px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 40px;
+      gap: 0;
       position: relative;
       overflow: clip;
-    }
-    .hero-bg-text {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: var(--font-display);
-      font-size: clamp(120px, 22vw, 320px);
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(240,237,230,0.04);
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
     }
     .hero-tag {
       font-size: 11px;
@@ -264,6 +253,7 @@ nav.scrolled {
   font-size: clamp(64px, 11vw, 172px);
   line-height: 0.9;
   letter-spacing: -0.01em;
+  margin-bottom: 38px;
 }
 .hero-title em {
   font-family: var(--font-display);
@@ -291,25 +281,31 @@ nav.scrolled {
   background: linear-gradient(90deg, #FF0000, #FF7700, #FFD700, #00CC44, #0099FF, #7B2FFF, #FF00CC, #FF0000);
   background-size: 200% auto;
   animation: gradient-slide 8s linear infinite;
-  filter: blur(20px);
+  filter: blur(30px);
   opacity: 0.3;
   z-index: -1;
   border-radius: 8px;
 }
 .hero-bottom {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-top: 28px;
   padding-top: 22px;
+  width: calc(100% + 80px);
+  margin-left: -40px;
+  padding-left: 40px;
+  padding-right: 40px;
   border-top: 1px solid var(--border);
-  gap: 20px;
-    }
+  gap: 12px;
+}
     .hero-desc {
-  max-width: 450px;
   font-size: 13px;
   color: var(--fg-muted);
   line-height: 1.7;
+  text-align: center;
+  max-width: 560px;
 }
 .hero-asterisk {
   color: var(--accent);
@@ -324,6 +320,10 @@ nav.scrolled {
       color: var(--fg-muted);
       white-space: nowrap;
       flex-shrink: 0;
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .hero-scroll-line {
       width: 36px; height: 1px;
@@ -335,16 +335,15 @@ nav.scrolled {
       50% { width: 54px; opacity: 0.4; }
     }
  @media (max-width: 768px) {
-  .hero-tag + .hero-tag { margin-top: -40px; }
   #hero {
     padding: 80px 0 32px;
     min-height: 100svh;
     text-align: center;
     justify-content: center;
-    gap: 50px;
+    gap: 16px;
   }
   .hero-tag { margin: 0; padding: 0 24px; }
-  .hero-title { padding: 0 24px 20px; }
+  .hero-title { padding: 0 24px 20px; font-size: clamp(72px, 18vw, 120px); }
   .hero-scroll-mobile { padding: 0 24px; }
   .hero-divider { margin: 0; }
   .hero-bottom {
@@ -359,19 +358,13 @@ nav.scrolled {
   }
   .hero-desc { font-size: 12px; line-height: 1.8; margin-top: 50px; }
   .hero-scroll { display: none; }
-  .hero-bg-text {
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: clamp(80px, 28vw, 160px);
-  }
 }
 
     /* ============================
        SECTION BASE
     ============================ */
     section { padding: 100px 40px; }
-    @media (max-width: 768px) { section { padding: 72px 20px; } }
+      @media (max-width: 768px) { section { padding: 72px 20px; } }
 
     .section-header {
       display: flex;
@@ -399,14 +392,62 @@ nav.scrolled {
   display: flex;
   gap: 14px;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  padding-bottom: 20px;
-  cursor: grab;
+  padding: 3px 3px 20px 3px;
+  cursor: none;
+  scrollbar-width: none;
 }
-.works-grid:active { cursor: grabbing; }
-.works-grid::-webkit-scrollbar { height: 2px; }
-.works-grid::-webkit-scrollbar-track { background: var(--bg2); }
-.works-grid::-webkit-scrollbar-thumb { background: var(--accent); }
+.works-grid::-webkit-scrollbar { display: none; }
+
+.works-scrollbar {
+  width: 100%;
+  height: 2px;
+  background: var(--bg2);
+  margin-top: 8px;
+  position: relative;
+}
+.works-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: left 0.1s linear;
+  pointer-events: none;
+}
+
+.works-outer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.works-nav {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+
+.works-arrow {
+  position: static;
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: border-color 0.2s, color 0.2s, opacity 0.3s;
+}
+.works-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.works-arrow.hidden { opacity: 0; pointer-events: none; }
+.works-arrow svg { width: 14px; height: 14px; }
+
+@media (max-width: 768px) {
+  .works-arrow { display: none; }
+}
 
 .work-card {
   flex: 0 0 38vw;
@@ -415,9 +456,8 @@ nav.scrolled {
   position: relative;
   overflow: hidden;
   background: var(--bg3);
-  cursor: grab;
+  cursor: none;
 }
-.work-card:active { cursor: grabbing; }
 
 @media (max-width: 768px) {
   .works-grid {
@@ -446,7 +486,7 @@ nav.scrolled {
   width: 100%;
   height: 100%;
 }
-.work-card:hover img { transform: scale(1.06); }
+.work-card:hover img { transform: scale(1.03); }
 
 .work-card-orange {
   position: absolute;
@@ -456,7 +496,6 @@ nav.scrolled {
   opacity: 1;
   z-index: 1;
 }
-.work-card:hover .work-card-orange { opacity: 0; }
 
 .work-card-overlay {
   position: absolute;
@@ -471,6 +510,8 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
+  text-align: center;
   padding: 20px;
   opacity: 0;
   transition: opacity 0.35s;
@@ -900,11 +941,26 @@ nav.scrolled {
 ============================ */
 #produtos { border-top: 1px solid var(--border); }
 
-.produtos-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 0;
+.produtos-cta-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+
+.produto-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 14px 28px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  cursor: none;
+}
+.produto-cta-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(255,69,0,0.05);
 }
 .produto-card {
   display: flex;
@@ -963,7 +1019,7 @@ nav.scrolled {
     /* ============================
        CONTATO
     ============================ */
-    #contato { border-top: 1px solid var(--border); }
+    #contato { border-top: 1px solid var(--border); padding-bottom: 20px; }
 
     .contact-big {
       font-family: var(--font-display);
@@ -980,17 +1036,22 @@ nav.scrolled {
     .contact-big a:hover { color: var(--accent); }
 
     .contact-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 32px;
-      border-top: 1px solid var(--border);
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-left: -40px;
+  margin-right: -40px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
     @media (max-width: 768px) {
-  .contact-big { font-size: clamp(36px, 10vw, 72px); margin-bottom: 36px; }
-  .contact-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+  #contato { padding-bottom: 32px; }
+  .contact-big { font-size: clamp(36px, 10vw, 72px); margin-bottom: 20px; }
+  .contact-bottom { flex-direction: column; align-items: flex-start; gap: 16px; margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
   .social-links { gap: 14px; flex-direction: column; }
   .footer-copy { border-top: 1px solid var(--border); padding-top: 16px; width: calc(100% + 40px); margin-left: -20px; padding-left: 20px; }
 }
@@ -1010,16 +1071,8 @@ nav.scrolled {
       transition: color 0.2s;
     }
     .social-link:hover { color: var(--accent); }
-    .social-link svg {
-      width: 15px; height: 15px;
-      fill: currentColor;
-      flex-shrink: 0;
-    }
-
+    
     .footer-copy { font-size: 11px; color: var(--fg-muted); letter-spacing: 0.06em; }
-    @media (max-width: 768px) {
-  .sobre-grid { grid-template-columns: 1fr; gap: 36px; }
-}
 
 .nav-social {
   display: none;
@@ -1082,10 +1135,12 @@ nav.scrolled {
 }
 
 .hero-divider {
-  width: 100%;
+  width: calc(100% + 80px);
+  margin-left: -40px;
   height: 1px;
   background: var(--border);
-  margin: 16px 0; /* ← espaço acima e abaixo da linha */
+  margin-top: 16px;
+  margin-bottom: 46px;
 }
 
 .hero-star {
@@ -1152,10 +1207,10 @@ nav.scrolled {
     </a>
   </div>
   <ul class="nav-links" id="navLinks">
-  <li><a href="#trabalhos" class="nav-link-item">Trabalhos</a></li>
+  <li><a href="#trabalhos">Trabalhos</a></li>
   <li><a href="#sobre">Sobre</a></li>
-  <li><a href="#produtos">Produtos</a></li>
   <li><a href="#contato">Contato</a></li>
+  <li><a href="/shop">Shop</a></li>
   <li class="nav-social">
     <a href="https://instagram.com/rafaeldoone" target="_blank" rel="noopener" aria-label="Instagram">
       <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/main/assets/icons/instagram.svg" alt="Instagram" style="width:22px; height:22px; filter: invert(1);">
@@ -1168,10 +1223,10 @@ nav.scrolled {
     </a>
   </li>
 </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+  </nav>
+<button class="nav-toggle" id="navToggle" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
 
   <!-- ============================
        HERO
@@ -1179,23 +1234,23 @@ nav.scrolled {
   <section id="hero">
     <!-- <div class="hero-bg-text" aria-hidden="true">✳DOONER✳</div> -->
     <div class="hero-tag reveal">RAFAEL GOMES ✦ A.K.A DOONE</div>
-    <div class="hero-tag reveal" style="color: var(--fg);">Designer · Artista visual</div>
-    <div class="hero-divider"></div>
-    <h1 class="hero-title reveal reveal-delay-1">
+    <div class="hero-tag reveal" style="color: var(--fg);">Designer & Artista visual</div>
+    <br><br/>
+     <h1 class="hero-title reveal reveal-delay-1">
       TRATE A<br/>SI MESMO<br/>COMO <em>ARTE</em>
     </h1>
     <div class="hero-bottom reveal reveal-delay-2">
       <p class="hero-desc">
-  <span class="hero-line"><span class="hero-star">✦</span> Design. Lettering. Branding. Arte urbana.</span>
+  <span class="hero-line"><span class="hero-star">✦</span> Design. Lettering. Branding. Arte urbana.<span class="hero-star">✦</span></span>
 <span class="hero-sep hero-asterisk">✦</span>
-<span class="hero-line"><span class="hero-star">✦</span> Colaborações com Netflix, EBANX e Sacramento Kings.</span>
+<span class="hero-line"><span class="hero-star">✦</span> De Curitiba - Brasil, para o mundo.<span class="hero-star">✦</span></span>
 <span class="hero-sep hero-asterisk">✦</span>
-<span class="hero-line"><span class="hero-star">✦</span> De Curitiba - Brasil, para o mundo.</span>
+<span class="hero-line"><span class="hero-star">✦</span> Colaborações com Netflix, EBANX e Sacramento Kings.<span class="hero-star">✦</span></span>
 </p>
-      <div class="hero-scroll" aria-hidden="true">
-        <div class="hero-scroll-line"></div>
-        Scroll
-      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <div class="hero-scroll-line"></div>
+      Scroll
     </div>
 
 <div class="hero-scroll-mobile" aria-hidden="true">
@@ -1222,23 +1277,26 @@ nav.scrolled {
       <h2 class="section-title reveal reveal-delay-1">TRABA<span>LHOS</span></h2>
     </div>
 
+    <div class="works-outer">
+      <button class="works-arrow works-arrow-prev hidden" id="worksPrev" aria-label="Projetos anteriores">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9,1 3,7 9,13"/></svg>
+      </button>
+      <div class="works-nav">
     <div class="works-grid">
 
-      <!-- LINHA 1 : horizontal grande + vertical -->
-
-      <!-- Netflix Sintonia | 16:9 | 1600×900px -->
+      <!-- Netflix Sintonia -->
       <div class="work-card wc-16-9 reveal" data-project="netflix-sintonia" tabindex="0" role="button" aria-label="Ver projeto Netflix Sintonia">
         <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/refs/heads/main/images/sintonia-netflix/sintonia-doone_netflix_01.webp" alt="Netflix - Sintonia" loading="lazy"/>
         <div class="work-card-orange"></div>
         <div class="work-card-overlay">
           <span class="wc-client">Netflix Brasil</span>
           <div class="wc-title">Sintonia — CPTM</div>
-          <div class="wc-meta">2023 · Lettering / Intervenção urbana</div>
-          <div class="wc-cta">Ver projeto <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg></div>
+          <div class="wc-meta">2023 · Lettering</div>
+          <div class="wc-cta">✦ Ver projeto ✦</div>
         </div>
       </div>
 
-      <!-- EBANX Circus | 4:5 | 800×1000px -->
+      <!-- EBANX Circus -->
       <div class="work-card wc-4-5 reveal reveal-delay-1" data-project="ebanx-circus" tabindex="0" role="button" aria-label="Ver projeto EBANX Circus Underground">
         <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/refs/heads/main/images/ebax-circus/ebanx-circus_13.webp" alt="EBANX Circus Underground" loading="lazy"/>
         <div class="work-card-orange"></div>
@@ -1246,25 +1304,23 @@ nav.scrolled {
           <span class="wc-client">EBANX</span>
           <div class="wc-title">Circus Underground</div>
           <div class="wc-meta">2019 · Logo & Mural</div>
-          <div class="wc-cta">Ver projeto <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg></div>
+          <div class="wc-cta">✦ Ver projeto ✦</div>
         </div>
       </div>
 
-      <!-- LINHA 2 : três quadrados -->
-
-      <!-- Junipero Gin | 1:1 | 900×900px -->
+      <!-- Junipero Gin -->
       <div class="work-card wc-1-1 reveal" data-project="junipero-gin" tabindex="0" role="button" aria-label="Ver projeto Junipero Gin">
         <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/refs/heads/main/images/junipero/junipero-site01.webp" alt="Junipero Gin" loading="lazy"/>
         <div class="work-card-orange"></div>
         <div class="work-card-overlay">
           <span class="wc-client">Mucho × Junipero Gin</span>
           <div class="wc-title">Identidade Visual</div>
-          <div class="wc-meta">San Francisco · Branding</div>
-          <div class="wc-cta">Ver projeto <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg></div>
+          <div class="wc-meta">Branding • San Francisco, USA</div>
+          <div class="wc-cta">✦ Ver projeto ✦</div>
         </div>
       </div>
 
-      <!-- Sinergia × Pahnl | 1:1 | 900×900px -->
+      <!-- Sinergia × Pahnl -->
       <div class="work-card wc-1-1 reveal reveal-delay-1" data-project="sinergia-pahnl" tabindex="0" role="button" aria-label="Ver projeto Sinergia x Pahnl">
         <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/refs/heads/main/images/sinergia-pahnl/sinergia_wide.webp" alt="Sinergia x Pahnl" loading="lazy"/>
         <div class="work-card-orange"></div>
@@ -1272,11 +1328,11 @@ nav.scrolled {
           <span class="wc-client">Collab Internacional</span>
           <div class="wc-title">Sinergia × Pahnl</div>
           <div class="wc-meta">Collab UK/BR · Escultura</div>
-          <div class="wc-cta">Ver projeto <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg></div>
+          <div class="wc-cta">✦ Ver projeto ✦</div>
         </div>
       </div>
 
-      <!-- Logofolio | 1:1 | 900×900px -->
+      <!-- Logofolio -->
       <div class="work-card wc-1-1 reveal reveal-delay-2" data-project="logofolio" tabindex="0" role="button" aria-label="Ver Logofolio">
         <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/refs/heads/main/images/logofolio/logos-bunch.webp" alt="Logofolio" loading="lazy"/>
         <div class="work-card-orange"></div>
@@ -1284,13 +1340,11 @@ nav.scrolled {
           <span class="wc-client">Vários Clientes</span>
           <div class="wc-title">Logofolio</div>
           <div class="wc-meta">2016 – presente</div>
-          <div class="wc-cta">Ver projeto <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg></div>
+          <div class="wc-cta">✦ Ver projeto ✦</div>
         </div>
       </div>
 
-      <!-- LINHA 3 : vertical + horizontal grande -->
-
-      <!-- Lettering Autoral | 4:5 | 800×1000px -->
+      <!-- Lettering Autoral -->
       <div class="work-card wc-4-5 reveal" data-project="lettering-autoral" tabindex="0" role="button" aria-label="Ver projeto Lettering Autoral">
         <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/refs/heads/main/images/lettering-caligrafia/lettering-caligrafia_01.webp" alt="Lettering Autoral" loading="lazy"/>
         <div class="work-card-orange"></div>
@@ -1298,25 +1352,32 @@ nav.scrolled {
           <span class="wc-client">Projeto Autoral</span>
           <div class="wc-title">Lettering & Caligrafia</div>
           <div class="wc-meta">Ongoing</div>
-          <div class="wc-cta">Ver projeto <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg></div>
+          <div class="wc-cta">✦ Ver projeto ✦</div>
         </div>
       </div>
 
-      <!-- Pinturas | 16:9 | 1600×900px -->
+      <!-- Pinturas -->
       <div class="work-card wc-16-9 reveal reveal-delay-1" data-project="pinturas" tabindex="0" role="button" aria-label="Ver projeto Pinturas">
-        <img src="URL_DA_FOTO_DE_CAPA" alt="Pinturas" loading="lazy"/>
+        <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/refs/heads/main/images/lettering-caligrafia/lettering-caligrafia_13.webp" alt="Pinturas" loading="lazy"/>
         <div class="work-card-orange"></div>
         <div class="work-card-overlay">
           <span class="wc-client">Autoral & Encomendas</span>
           <div class="wc-title">Pinturas</div>
           <div class="wc-meta">Ongoing · Diversas superfícies</div>
-          <div class="wc-cta">Ver projeto <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg></div>
+          <div class="wc-cta">✦ Ver projeto ✦</div>
         </div>
       </div>
 
     </div>
-
     </div>
+      <button class="works-arrow works-arrow-next" id="worksNext" aria-label="Próximos projetos">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="5,1 11,7 5,13"/></svg>
+      </button>
+    </div>
+  <div class="works-scrollbar">
+    <div class="works-scrollbar-thumb" id="worksThumb"></div>
+  </div>
+
   </section>
 
   <!-- MARQUEE -->
@@ -1339,45 +1400,75 @@ nav.scrolled {
     </div>
     <div class="sobre-grid">
       <p class="sobre-bio reveal">
-        Sou <em><b>Doone</b></em>, nome artístico de <i><b>Rafael Gomes</i></b>,
-        designer e artista visual formado em Design Digital pela PUCPR.
-        Minha história começou bem antes da faculdade, nos primeiros rabiscos
-        influenciados pelo skate e o graffiti. Essas raízes ainda definem minha estética e a forma como projeto hoje.
+        Olá, me chamo <b>Rafael Gomes</b>, <i>a.k.a</i><em><b> Doone</b></em>.
+        Sou designer e artista visual multidisciplinar, formado em Design Digital pela PUCPR.
+        Minha história começou bem antes da faculdade, nos primeiros rabiscos influenciados
+        pelo skate e o graffiti. Essas raízes ainda definem minha estética e a forma como projeto hoje.
         <br/><br/>
         Colaborei com marcas como <em>Netflix, EBANX, Mucho</em>
         e <em>Sacramento Kings (NBA)</em>, sempre com foco em
         identidade forte e linguagem visual própria.
+        Aprendo rápido e me adapto a qualquer contexto, do conceito à entrega, do digital ao analógico.
         <br/><br/>
         Domino ferramentas como <em>Illustrator, Photoshop, Premiere,
         After Effects</em> e <em>Procreate</em>, com experiência
-        em branding, ilustração digital e arte urbana. O trabalho não se limita ao digital.<i> Serigrafia, bordado, pirografia,
-        cerâmica, stencil, mural, graffiti e pinturas personalizadas </i> parte do repertório.
+        em branding, ilustração digital e arte urbana. Meus trabalhos não se limitam ao digital.<i> Serigrafia, bordado, pirografia,
+        cerâmica, stencil, mural, graffiti e pinturas personalizadas</i> também fazem parte do repertório.
+        <br><br/>
         Minha abordagem equilibra conceito, impacto e funcionalidade, conectando design e arte de forma autêntica.
+        <br><br/>
+        Caso queira salvar, o portfólio também está disponível em PDF para download.
         <br/><br/>
-        Tem um projeto em mente? <a href="#contato" style="color: var(--accent); text-decoration: underline;">Vamos conversar.</a>
+        Tem um projeto em mente? Me manda um <a href="#contato" style="color: var(--accent); text-decoration: underline;">email</a> contando a sua ideia ou projeto e eu cuido do resto.
+        Ideias em qualquer estágio são bem-vindas.
       </p>
       <div class="sobre-details reveal reveal-delay-1">
         <div class="detail-block">
           <h4>Competências</h4>
           <ul>
-            <li>Lettering & Caligrafia</li>
             <li>Branding & Identidade Visual</li>
-            <li>Murais & Arte Urbana</li>
+            <li>Peças e ações publicitárias</li>
+            <li>Lettering & Caligrafia</li>
             <li>Ilustração Digital</li>
-            <li>Criação tipográfica (Básico)</li>
+            <li>Criação Tipográfica</li>
+            <li>Murais & Pinturas</li>
             <li>Brushes & Assets (Procreate)</li>
+            <li>Arte em Superfícies</li>
+            <li>Produções Artesanais</li>
+            
           </ul>
         </div>
         <div class="detail-block">
           <h4>Publicações</h4>
           <ul>
-            <li>Typism — Book Nine (2023)</li>
-            <li>Essência — Alfabetos das ruas (2024)</li>
+            <li>2023 • Typism — Book Nine</li>
+            <li>2024 • Essência — Alfabetos das ruas</li>
           </ul>
         </div>
         <div class="detail-block">
+          <h4>Exibições</h4>
+          <ul>
+            <li>2020 • O incrível acontece aqui - ParkShopping Barigui, Curitiba - Brasil</li>
+          </ul>
+        </div>
+       <div class="detail-block">
           <h4>Baseado em</h4>
           <p>Curitiba, Paraná — Brasil</p>
+        </div>
+        <div class="detail-block">
+          <h4>Portfólio</h4>
+          <a
+            href="COLE_AQUI_O_LINK_DO_ARQUIVO"
+            download
+            class="produto-cta-link"
+            style="margin-top: 8px; cursor: pointer;"
+          >
+            Baixar portfolio <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
+              <line x1="5" y1="1" x2="5" y2="8"/>
+              <polyline points="2,5 5,8 8,5"/>
+              <line x1="1" y1="9" x2="9" y2="9"/>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
@@ -1388,55 +1479,24 @@ nav.scrolled {
     </div>
   </section>
 
-<!-- ============================
-       PRODUTOS DIGITAIS
-  ============================ -->
-  <section id="produtos">
-    <div class="section-header">
-      <span class="section-num reveal">03</span>
-      <h2 class="section-title reveal reveal-delay-1">PRODU<span>TOS</span></h2>
-    </div>
-    <p class="sobre-bio reveal" style="max-width: 900px; margin-bottom: 48px;">
-      Em 2018 fundei a <em>Goodfela Supply</em> para entregar ferramentas
-      criativas a designers e ilustradores do mundo todo. Comecei com brushes
-      de spray para Procreate e desde então expandi para marcadores,
-      templates 3D, fontes e muito mais.
-      <br/><br/>
-      <em>Produtos feitos por quem usa, para quem cria.</em>
-    </p>
-    <div class="produtos-grid">
-      <a class="produto-card reveal" href="https://gumroad.com/rafaeldoone" target="_blank" rel="noopener noreferrer">
-        <span class="produto-plataforma">Gumroad</span>
-        <div class="produto-titulo">BRUSHES & ASSETS</div>
-        <p class="produto-desc">Brushes de spray, marcador e tinta para Procreate. Ferramentas desenvolvidas para quem leva o traço a sério.</p>
-        <span class="produto-cta">Ver produtos
-          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg>
-        </span>
-      </a>
-      <a class="produto-card reveal reveal-delay-1" href="https://creativemarket.com/goodfelasupply" target="_blank" rel="noopener noreferrer">
-        <span class="produto-plataforma">Creative Market</span>
-        <div class="produto-titulo">FONTES & TEMPLATES</div>
-        <p class="produto-desc">Fontes autorais, templates 3D e recursos visuais para elevar sua produção criativa.</p>
-        <span class="produto-cta">Ver produtos
-          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><line x1="1" y1="9" x2="9" y2="1"/><polyline points="4,1 9,1 9,6"/></svg>
-        </span>
-      </a>
-    </div>
-  </section>
-
   <!-- ============================
        CONTATO
   ============================ -->
   <section id="contato">
     <div class="section-header">
       <span class="section-num reveal">04</span>
-      <h2 class="section-title reveal reveal-delay-1">CON<span>TATO</span></h2>
+      <h2 class="section-title reveal reveal-delay-1">CONTA<span>TO</span></h2>
     </div>
     <div class="contact-big reveal">
-      <a href="/cdn-cgi/l/email-protection#6a180b0c0b0f060e0505040f2a0d070b030644090507"><span class="__cf_email__" data-cfemail="780a191e191d141c1717161d381f15191114561b1715">rafaeldoone@gmail.com</span></a>
+      <a href="/cdn-cgi/l/email-protection#6a180b0c0b0f060e0505040f2a0d070b030644090507"><span class="__cf_email__" data-cfemail="780a191e191d141c1717161d381f15191114561b1715"><span class="__cf_email__" data-cfemail="384a595e595d545c5757565d785f55595154165b5755">[email&#160;protected]</span></span></a>
     </div>
     <div class="contact-bottom reveal">
       <div class="social-links">
+        
+        <!-- Icone logo -->
+        <div style="height: 28px; width: 28px; flex-shrink: 0; margin-right: 12px;">
+        <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/c15f80ff017e3f5a38fb29774faceb5862796174/assets/logo/logo-doone_2026.svg" alt="Doone" style="height: 28px; width: auto; opacity: 0.4; filter: brightness(0) invert(1);">
+        </div>
 
         <!-- Instagram -->
         <a href="https://instagram.com/rafaeldoone" target="_blank" rel="noopener" class="social-link">
@@ -1455,16 +1515,12 @@ nav.scrolled {
 
         <!-- Gumroad -->
         <a href="https://rafaeldoone.gumroad.com" target="_blank" rel="noopener" class="social-link">
-          Gumroad
-        </a>
-
-        <!-- Creative Market -->
-        <a href="https://www.creativemarket.com/goodfelasupply" target="_blank" rel="noopener" class="social-link">
-          Creative Market
+          Shop
         </a>
 
       </div>
-      <p class="footer-copy">© <span id="anoAtual"></span> Rafael Gomes. Todos os direitos reservados.</p>
+      <p class="footer-copy">© <span id="anoAtual"></span> Rafael Gomes.
+        <br>Todos os direitos reservados.</p>
     </div>
   </section>
 
@@ -1933,19 +1989,22 @@ document.addEventListener('contextmenu', function(e) {
 
     // fecha o menu ao clicar em qualquer link
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            const navHeight = document.getElementById('nav').offsetHeight;
-            const top = target.getBoundingClientRect().top + window.scrollY - navHeight;
-            window.scrollTo({ top: top, behavior: 'smooth' });
-          }
-        }
-      });
-    });
+  link.addEventListener('click', function(e) {
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('open');
+    document.body.style.overflow = '';
+    const href = this.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        const navH = document.getElementById('nav').offsetHeight;
+        const top = target.getBoundingClientRect().top + window.scrollY - navH;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    }
+  });
+});
 
     /* ── SEÇÃO ATIVA NO MENU ── */
     const sections  = document.querySelectorAll('section[id]');
@@ -1954,8 +2013,10 @@ document.addEventListener('contextmenu', function(e) {
 
     var indicator = document.createElement('div');
     indicator.className = 'nav-indicator';
-    navList.style.position = 'relative';
+    
     navList.appendChild(indicator);
+
+    var clicking = false;
 
     navItems.forEach(function(a) {
       a.addEventListener('click', function() {
@@ -1984,8 +2045,6 @@ document.addEventListener('contextmenu', function(e) {
       }
     }
 
-    var clicking = false;
-
     window.addEventListener('scroll', function() {
       if (clicking) return;
 
@@ -2003,8 +2062,42 @@ document.addEventListener('contextmenu', function(e) {
     });
 
     /* ── DRAG TO SCROLL NA GRADE ── */
-    const grid = document.querySelector('.works-grid');
+    const grid     = document.querySelector('.works-grid');
+    const thumb    = document.getElementById('worksThumb');
+    const btnPrev  = document.getElementById('worksPrev');
+    const btnNext  = document.getElementById('worksNext');
+
+    function updateWorksArrows() {
+      if (!grid || !btnPrev || !btnNext) return;
+      btnPrev.classList.toggle('hidden', grid.scrollLeft <= 0);
+      btnNext.classList.toggle('hidden', grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2);
+    }
+
+    if (btnPrev) btnPrev.addEventListener('click', () => {
+      grid.scrollBy({ left: -500, behavior: 'smooth' });
+      setTimeout(updateWorksArrows, 500);
+    });
+    if (btnNext) btnNext.addEventListener('click', () => {
+      grid.scrollBy({ left: 500, behavior: 'smooth' });
+      setTimeout(updateWorksArrows, 500);
+    });
+
+    function updateThumb() {
+      if (!grid || !thumb) return;
+      const ratio      = grid.clientWidth / grid.scrollWidth;
+      const thumbWidth = ratio * 100;
+      const thumbLeft  = (grid.scrollLeft / grid.scrollWidth) * 100;
+      thumb.style.width = thumbWidth + '%';
+      thumb.style.left  = thumbLeft + '%';
+    }
+
     if (grid) {
+      grid.addEventListener('scroll', updateThumb);
+      grid.addEventListener('scroll', updateWorksArrows);
+      updateThumb();
+      updateWorksArrows();
+
+      /* drag com o mouse */
       let isDown = false, startX, scrollLeft;
       grid.addEventListener('mousedown', e => {
         isDown = true;
@@ -2012,14 +2105,17 @@ document.addEventListener('contextmenu', function(e) {
         scrollLeft = grid.scrollLeft;
       });
       grid.addEventListener('mouseleave', () => { isDown = false; });
-      grid.addEventListener('mouseup', () => { isDown = false; });
+      grid.addEventListener('mouseup',    () => { isDown = false; });
       grid.addEventListener('mousemove', e => {
         if (!isDown) return;
         e.preventDefault();
-        const x = e.pageX - grid.offsetLeft;
-        grid.scrollLeft = scrollLeft - (x - startX) * 1.5;
+        const x    = e.pageX - grid.offsetLeft;
+        const walk = (x - startX) * 2;
+        grid.scrollLeft = scrollLeft - walk;
       });
+
     }
+
   </script>
 </body>
 </html>
