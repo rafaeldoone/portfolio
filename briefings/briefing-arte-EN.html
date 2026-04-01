@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing · Custom Art & Commissions — Doone Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=PT+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #080808;
+    --bg2:      #111111;
+    --bg3:      #1a1a1a;
+    --fg:       #f0ede6;
+    --muted:    #888880;
+    --accent:   #FF4500;
+    --border:   rgba(240,237,230,0.08);
+    --font-d:   'Bebas Neue', sans-serif;
+    --font-s:   'PT Serif', serif;
+    --font-m:   'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-m);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #progressBar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: var(--accent);
+    z-index: 999;
+    transition: width 0.3s;
+  }
+
+  .site-header {
+    padding: 32px 40px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(8,8,8,0.97);
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-wrap img {
+    height: 32px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+  .logo-sep {
+    width: 1px;
+    height: 20px;
+    background: var(--border);
+  }
+  .logo-label {
+    font-family: var(--font-m);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .header-count {
+    font-family: var(--font-m);
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .header-count span { color: var(--accent); }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px 64px;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-family: var(--font-d);
+    font-size: clamp(52px, 8vw, 110px);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .hero-desc {
+    font-family: var(--font-s);
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 560px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .main {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  .section-block {
+    padding-top: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: var(--font-d);
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .section-title span { color: var(--accent); }
+
+  .q-block {
+    margin-bottom: 48px;
+  }
+
+  .q-number {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .q-label {
+    font-family: var(--font-m);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--fg);
+    letter-spacing: 0em;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+
+  .q-why {
+    font-family: var(--font-s);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  textarea, input[type="text"] {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-family: var(--font-m);
+    font-size: 13px;
+    padding: 14px 16px;
+    line-height: 1.6;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  textarea { min-height: 100px; }
+  textarea:focus, input[type="text"]:focus {
+    border-color: rgba(255,69,0,0.5);
+  }
+  textarea::placeholder, input::placeholder {
+    color: rgba(136,136,128,0.5);
+    font-style: italic;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .chip {
+    font-family: var(--font-m);
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    user-select: none;
+  }
+  .chip:hover { border-color: rgba(255,69,0,0.4); color: var(--fg); }
+  .chip.selected { border-color: var(--accent); color: var(--accent); background: rgba(255,69,0,0.05); }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .radio-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .radio-item:hover { border-color: rgba(255,69,0,0.3); background: var(--bg2); }
+  .radio-item input[type="radio"],
+  .radio-item input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .radio-item label {
+    font-family: var(--font-m);
+    font-size: 15px;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .radio-item:has(input:checked) {
+    border-color: rgba(255,69,0,0.5);
+    background: rgba(255,69,0,0.04);
+  }
+  .radio-item:has(input:checked) label { color: var(--fg); }
+
+  .closing {
+    margin-top: 64px;
+    padding: 32px 36px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  .closing-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .closing p {
+    font-family: var(--font-s);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  .closing strong { color: var(--fg); font-style: italic; }
+
+  .submit-area {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .btn-submit {
+    font-family: var(--font-m);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg);
+    background: var(--accent);
+    border: none;
+    padding: 18px 40px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    width: 100%;
+  }
+  .btn-submit:hover { opacity: 0.88; }
+  .btn-submit:active { transform: scale(0.99); }
+
+  .btn-copy {
+    font-family: var(--font-m);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 14px 40px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    width: 100%;
+  }
+  .btn-copy:hover { border-color: rgba(255,69,0,0.4); color: var(--fg); }
+
+  .submit-note {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+  }
+
+  .success-msg {
+    display: none;
+    margin-top: 24px;
+    padding: 24px 28px;
+    border: 1px solid rgba(255,69,0,0.3);
+    background: rgba(255,69,0,0.05);
+  }
+  .success-msg p {
+    font-family: var(--font-s);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--fg);
+  }
+  .success-msg.show { display: block; }
+
+  .site-footer {
+    position: relative;
+    z-index: 1;
+    padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .site-footer span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .site-footer a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .site-footer a:hover { color: var(--accent); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    html, body { overflow-x: hidden; max-width: 100%; }
+    textarea, input[type="text"] { max-width: 100%; box-sizing: border-box; }
+    .hero { max-width: 100%; }
+    .main { max-width: 100%; }
+
+    .site-header { padding: 16px 20px; }
+    .logo-label { display: none; }
+    .logo-sep { display: none; }
+    .logo-wrap img { height: 26px; }
+    .header-count { font-size: 12px; }
+
+    .hero { padding: 40px 20px 36px; }
+    .hero-title { font-size: clamp(44px, 13vw, 72px); }
+    .hero-desc { font-size: 15px; }
+
+    .main { padding: 0 20px 60px; }
+
+    .section-block { padding-top: 48px; }
+    .section-title { font-size: clamp(28px, 9vw, 44px); }
+    .section-header { margin-bottom: 28px; padding-bottom: 16px; }
+
+    .q-block { margin-bottom: 36px; }
+    .q-label { font-size: 15px; }
+    .q-why { font-size: 15px; }
+
+    textarea { font-size: 16px; min-height: 90px; }
+    input[type="text"] { font-size: 16px; }
+
+    .chip { font-size: 12px; padding: 8px 12px; letter-spacing: 0.08em; }
+
+    .radio-item { padding: 13px 14px; }
+    .radio-item label { font-size: 15px; }
+    .radio-item input[type="radio"],
+    .radio-item input[type="checkbox"] { width: 16px; height: 16px; }
+
+    .closing { padding: 24px 20px; }
+    .closing p { font-size: 14px; }
+
+    .btn-submit { padding: 18px 20px; font-size: 11px; }
+    .btn-copy { padding: 14px 20px; }
+    .submit-note { font-size: 11px; }
+
+    .site-footer { padding: 24px 20px; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="logo-wrap">
+    <img src="https://raw.githubusercontent.com/rafaeldoone/portfolio/c15f80ff017e3f5a38fb29774faceb5862796174/assets/logo/logo-doone_2026.svg" alt="DOONE">
+    <div class="logo-sep"></div>
+    <span class="logo-label">Briefing · Custom Art & Commissions</span>
+  </div>
+  <span class="header-count">Answered: <span id="countDisplay">0</span> / 18</span>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">✦ DOONE STUDIO ✦</div>
+  <h1 class="hero-title">MADE BY HAND.<br>BUILT<br><em style="font-family:var(--font-d); font-style:normal; color:var(--accent);">WITH YOU.</em></h1>
+  <p class="hero-desc">Take your time. The more detail you share — surface, purpose, feel — the more accurate and efficient the delivery will be.</p>
+</div>
+
+<!-- FORM -->
+<div class="main">
+<form id="briefingForm" action="https://formspree.io/f/mreokneb" method="POST">
+
+  <input type="hidden" name="01_tipo_peca" id="hidden_tipo">
+  <input type="hidden" name="06_objetivo" id="hidden_objetivo">
+  <input type="hidden" name="13_formato_arquivo" id="hidden_formato">
+
+  <!-- ============================================================
+       BLOCO 1 — A PEÇA
+  ============================================================ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">THE <span>PIECE</span></h2>
+    </div>
+
+    <!-- Q01 chips -->
+    <div class="q-block">
+      <div class="q-number">Question 01</div>
+      <div class="q-label">What do you need? (select all that apply)</div>
+      <div class="q-why">This defines the scope right away and avoids any misunderstanding about what's being commissioned.</div>
+      <div class="chips" id="chips_tipo">
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Lettering</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Digital illustration</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Print artwork</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Mural</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Canvas painting</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Object painting</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Stencil</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Social media artwork</span>
+        <span class="chip" onclick="toggleChip(this,'chips_tipo','hidden_tipo')">Other</span>
+      </div>
+      <input type="text" id="outro_chips_tipo" name="01_tipo_outro" placeholder="Describe what you need..." style="display:none; margin-top:10px;" oninput="updateCount()">
+    </div>
+
+    <!-- Q02 -->
+    <div class="q-block">
+      <div class="q-number">Question 02</div>
+      <div class="q-label">What surface or material will the artwork be applied to?</div>
+      <div class="q-why">Paper, fabric, wall, ceramic, and wood all have completely different technical requirements. This defines the technique and the pricing.</div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="02_suporte" id="s1" value="Digital (file)" onchange="updateCount(); document.getElementById('outro_suporte').style.display='none';"><label for="s1">Digital — file for online use or printing</label></div>
+        <div class="radio-item"><input type="radio" name="02_suporte" id="s2" value="Paper or print" onchange="updateCount(); document.getElementById('outro_suporte').style.display='none';"><label for="s2">Paper or print</label></div>
+        <div class="radio-item"><input type="radio" name="02_suporte" id="s3" value="Fabric" onchange="updateCount(); document.getElementById('outro_suporte').style.display='none';"><label for="s3">Fabric</label></div>
+        <div class="radio-item"><input type="radio" name="02_suporte" id="s4" value="Wall or facade" onchange="updateCount(); document.getElementById('outro_suporte').style.display='none';"><label for="s4">Wall or facade</label></div>
+        <div class="radio-item"><input type="radio" name="02_suporte" id="s5" value="Canvas" onchange="updateCount(); document.getElementById('outro_suporte').style.display='none';"><label for="s5">Canvas</label></div>
+        <div class="radio-item"><input type="radio" name="02_suporte" id="s6" value="Physical object" onchange="updateCount(); document.getElementById('outro_suporte').style.display='none';"><label for="s6">Physical object</label></div>
+        <div class="radio-item"><input type="radio" name="02_suporte" id="s7" value="Other" onchange="updateCount(); document.getElementById('outro_suporte').style.display='block';"><label for="s7">Other — I'll describe below</label></div>
+      </div>
+      <input type="text" id="outro_suporte" name="02_suporte_outro" placeholder="Describe the surface or material..." style="display:none; margin-top:10px;" oninput="updateCount()">
+    </div>
+
+    <!-- Q03 -->
+    <div class="q-block">
+      <div class="q-number">Question 03</div>
+      <div class="q-label">What's the expected size or dimension?</div>
+      <div class="q-why">Size directly impacts execution time and pricing. An A4 lettering piece and a 10m² mural are completely different projects.</div>
+      <input type="text" name="03_tamanho" placeholder="e.g. A3 / 50×70cm / 3m wide wall / medium-sized t-shirt" oninput="updateCount()">
+    </div>
+
+    <!-- Q04 -->
+    <div class="q-block">
+      <div class="q-number">Question 04</div>
+      <div class="q-label">Will the artwork include any specific text, phrase, or word?</div>
+      <div class="q-why">Lettering and custom typography have a different creative process than pure illustration. Knowing the text content from the start is essential.</div>
+      <textarea name="04_texto" placeholder="e.g. The phrase is 'Made by hand, delivered with soul.' — exactly like that, comma included. / No text, it's illustration only." oninput="updateCount()"></textarea>
+    </div>
+
+    <!-- Q05 -->
+    <div class="q-block">
+      <div class="q-number">Question 05</div>
+      <div class="q-label">Does the artwork need to follow your existing brand identity?</div>
+      <div class="q-why">Pieces that need to match an existing identity have different creative constraints than open projects. I need to know what's fixed before I start.</div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="05_marca" id="m1" value="Yes, it needs to follow my brand identity" onchange="updateCount()"><label for="m1">Yes, it needs to follow my brand identity (logo, colors, fonts)</label></div>
+        <div class="radio-item"><input type="radio" name="05_marca" id="m2" value="No, it's an open project" onchange="updateCount()"><label for="m2">No, it's an open project</label></div>
+        <div class="radio-item"><input type="radio" name="05_marca" id="m3" value="I have references but no formal identity" onchange="updateCount()"><label for="m3">I have references, but no formal visual identity</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BLOCO 2 — CONTEXTO E USO
+  ============================================================ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">CONTEX<span>T</span></h2>
+    </div>
+
+    <!-- Q06 chips -->
+    <div class="q-block">
+      <div class="q-number">Question 06</div>
+      <div class="q-label">What's the purpose of the piece? (select all that apply)</div>
+      <div class="q-why">Artwork made for product printing has very different technical requirements than something made for social media or a physical space.</div>
+      <div class="chips" id="chips_objetivo">
+        <span class="chip" onclick="toggleChip(this,'chips_objetivo','hidden_objetivo')">Personal gift or commission</span>
+        <span class="chip" onclick="toggleChip(this,'chips_objetivo','hidden_objetivo')">Commercial use</span>
+        <span class="chip" onclick="toggleChip(this,'chips_objetivo','hidden_objetivo')">Interior decoration</span>
+        <span class="chip" onclick="toggleChip(this,'chips_objetivo','hidden_objetivo')">Event or exhibition</span>
+        <span class="chip" onclick="toggleChip(this,'chips_objetivo','hidden_objetivo')">Social media</span>
+        <span class="chip" onclick="toggleChip(this,'chips_objetivo','hidden_objetivo')">Product for sale</span>
+        <span class="chip" onclick="toggleChip(this,'chips_objetivo','hidden_objetivo')">Other</span>
+      </div>
+      <input type="text" id="outro_chips_objetivo" name="06_objetivo_outro" placeholder="Describe the purpose..." style="display:none; margin-top:10px;" oninput="updateCount()">
+    </div>
+
+    <!-- Q07 -->
+    <div class="q-block">
+      <div class="q-number">Question 07</div>
+      <div class="q-label">Will the artwork be reproduced or is it a one-of-a-kind piece?</div>
+      <div class="q-why">This affects licensing, exclusivity, and pricing. Artwork that becomes a product print has a different value than a unique decorative piece.</div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="07_reproducao" id="r1" value="One-of-a-kind" onchange="updateCount()"><label for="r1">One-of-a-kind</label></div>
+        <div class="radio-item"><input type="radio" name="07_reproducao" id="r2" value="Will be reproduced for personal use" onchange="updateCount()"><label for="r2">Will be reproduced for personal use</label></div>
+        <div class="radio-item"><input type="radio" name="07_reproducao" id="r3" value="Will be reproduced for commercial use" onchange="updateCount()"><label for="r3">Will be reproduced for commercial use</label></div>
+        <div class="radio-item"><input type="radio" name="07_reproducao" id="r4" value="Not sure yet" onchange="updateCount()"><label for="r4">Not sure yet</label></div>
+      </div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="q-block">
+      <div class="q-number">Question 08</div>
+      <div class="q-label">Who is this piece for? Who will see or use it?</div>
+      <div class="q-why">Understanding the audience helps calibrate the visual tone — something for a personal gift feels different from a piece for an exhibition or a brand product.</div>
+      <textarea name="08_publico" placeholder="e.g. It's a gift for my mom, something delicate and personal. / It's for the front of my bar — young audience, urban taste." oninput="updateCount()"></textarea>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BLOCO 3 — REFERÊNCIAS E ESTÉTICA
+  ============================================================ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">REFEREN<span>CES</span></h2>
+    </div>
+
+    <!-- Q09 -->
+    <div class="q-block">
+      <div class="q-number">Question 09</div>
+      <div class="q-label">Do you have any visual references for this piece?</div>
+      <div class="q-why">Concrete references save time and avoid rework. It doesn't have to be something you want copied — it could be a color palette, a style, a mood.</div>
+      <textarea name="09_referencias" placeholder="e.g. I love Herb Lubalin's work — that dense, expressive typography. / Share image links or describe what inspires you for this piece." oninput="updateCount()"></textarea>
+    </div>
+
+    <!-- Q10 -->
+    <div class="q-block">
+      <div class="q-number">Question 10</div>
+      <div class="q-label">What feeling or atmosphere should the piece convey?</div>
+      <div class="q-why">Even a simple piece communicates something. Knowing the emotional intention before starting avoids deliveries that are technically correct but feel wrong.</div>
+      <textarea name="10_sentimento" placeholder="e.g. I want something heavy and urban, with that old-school graffiti tension. Nothing delicate or decorative. / Something light and warm, like it was made by hand with care." oninput="updateCount()"></textarea>
+    </div>
+
+    <!-- Q11 -->
+    <div class="q-block">
+      <div class="q-number">Question 11</div>
+      <div class="q-label">Do you have any color preferences or things you'd rather avoid?</div>
+      <div class="q-why">Colors carry emotional memory. Even if the palette gets defined in the process, knowing what you love and hate avoids paths that will need to be redone.</div>
+      <textarea name="11_cores" placeholder="e.g. I prefer black and white with a vibrant accent. / Nothing pastel — it goes against what I want to convey. / No preference, I trust your judgment." oninput="updateCount()"></textarea>
+    </div>
+
+    <!-- Q12 -->
+    <div class="q-block">
+      <div class="q-number">Question 12</div>
+      <div class="q-label">Is there anything you absolutely DON'T want in this piece?</div>
+      <div class="q-why">Knowing what to avoid is just as important as knowing what to aim for. Styles, references, or elements you hate are valuable data.</div>
+      <textarea name="12_nao_quero" placeholder="e.g. Nothing too ornate or floral. Nothing that looks like clipart or made in Canva. / No geometric sans-serif fonts — I want something with more personality." oninput="updateCount()"></textarea>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BLOCO 4 — ENTREGA
+  ============================================================ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">DELI<span>VERY</span></h2>
+    </div>
+
+    <!-- Q13 chips -->
+    <div class="q-block">
+      <div class="q-number">Question 13</div>
+      <div class="q-label">What file format do you need?</div>
+      <div class="q-why">Printing, embroidery, laser cutting, and digital use all have different technical formats. Knowing this upfront avoids rework and incompatible files.</div>
+      <div class="chips" id="chips_formato">
+        <span class="chip" onclick="toggleChip(this,'chips_formato','hidden_formato')">High-res PNG</span>
+        <span class="chip" onclick="toggleChip(this,'chips_formato','hidden_formato')">Vector PDF</span>
+        <span class="chip" onclick="toggleChip(this,'chips_formato','hidden_formato')">AI (Adobe Illustrator)</span>
+        <span class="chip" onclick="toggleChip(this,'chips_formato','hidden_formato')">SVG</span>
+        <span class="chip" onclick="toggleChip(this,'chips_formato','hidden_formato')">Other</span>
+      </div>
+      <input type="text" id="outro_chips_formato" name="13_objetivo_outro" placeholder="Describe the format or where it will be used..." style="display:none; margin-top:10px;" oninput="updateCount()">
+    </div>
+
+    <!-- Q14 -->
+    <div class="q-block">
+      <div class="q-number">Question 14</div>
+      <div class="q-label">Do you need exclusivity over the artwork?</div>
+      <div class="q-why">By default, original artwork may be displayed in my portfolio. If you need full exclusivity — no sharing, no reuse — that's included in the contract and affects the price.</div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="14_exclusividade" id="ex1" value="Yes, full exclusivity" onchange="updateCount()"><label for="ex1">Yes, I want full exclusivity</label></div>
+        <div class="radio-item"><input type="radio" name="14_exclusividade" id="ex2" value="Portfolio use is fine" onchange="updateCount()"><label for="ex2">Portfolio use is fine, no problem</label></div>
+        <div class="radio-item"><input type="radio" name="14_exclusividade" id="ex3" value="I'd like to discuss this before closing" onchange="updateCount()"><label for="ex3">I'd like to discuss this before closing</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BLOCO 5 — PROJETO
+  ============================================================ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">PROJE<span>CT</span></h2>
+    </div>
+
+    <!-- Q15 -->
+    <div class="q-block">
+      <div class="q-number">Question 15</div>
+      <div class="q-label">Do you have a specific date or deadline to meet?</div>
+      <div class="q-why">Urgency changes planning and may be factored into the proposal. If you don't have one, leave it blank.</div>
+      <input type="text" name="15_prazo" placeholder="e.g. I need it by April 20 — it's a birthday gift. / No deadline set." oninput="updateCount()">
+    </div>
+
+    <!-- Q16 -->
+    <div class="q-block">
+      <div class="q-number">Question 16</div>
+      <div class="q-label">What's your budget for this project?</div>
+      <div class="q-why">Transparency here saves time on both sides. No judgment — every budget range allows for a different scope, and it's better to align this before we start.</div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="16_orcamento" id="or1" value="Up to R$ 300" onchange="updateCount()"><label for="or1">Up to R$ 300</label></div>
+        <div class="radio-item"><input type="radio" name="16_orcamento" id="or2" value="R$ 300 – R$ 600" onchange="updateCount()"><label for="or2">R$ 300 – R$ 600</label></div>
+        <div class="radio-item"><input type="radio" name="16_orcamento" id="or3" value="R$ 600 – R$ 1,200" onchange="updateCount()"><label for="or3">R$ 600 – R$ 1,200</label></div>
+        <div class="radio-item"><input type="radio" name="16_orcamento" id="or4" value="R$ 1,200 – R$ 2,500" onchange="updateCount()"><label for="or4">R$ 1,200 – R$ 2,500</label></div>
+        <div class="radio-item"><input type="radio" name="16_orcamento" id="or5" value="R$ 2,500+" onchange="updateCount()"><label for="or5">R$ 2,500+</label></div>
+        <div class="radio-item"><input type="radio" name="16_orcamento" id="or6" value="I'd prefer to receive the proposal before sharing" onchange="updateCount()"><label for="or6">I'd prefer to receive the proposal before sharing</label></div>
+      </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="q-block">
+      <div class="q-number">Question 17</div>
+      <div class="q-label">How would you prefer to be contacted?</div>
+      <div class="q-why">Simple as it sounds, this avoids reaching out through the wrong channel and leaving you wondering why you haven't heard back.</div>
+      <div class="radio-group">
+        <div class="radio-item"><input type="radio" name="17_contato" id="ct1" value="WhatsApp" onchange="showContactField()"><label for="ct1">WhatsApp</label></div>
+        <div class="radio-item"><input type="radio" name="17_contato" id="ct2" value="Email" onchange="showContactField()"><label for="ct2">Email</label></div>
+      </div>
+      <input type="text" id="campo_contato" name="17_contato_info" placeholder="Your number or email..." style="display:none; margin-top:10px;" oninput="updateCount()">
+    </div>
+
+    <!-- Q18 -->
+    <div class="q-block">
+      <div class="q-number">Question 18</div>
+      <div class="q-label">Is there anything else you think is important to share?</div>
+      <div class="q-why">If there's any detail that didn't quite fit the other questions, this is the place. A context, a technical constraint, an extra reference — anything you feel is relevant.</div>
+      <textarea name="18_observacoes" placeholder="e.g. The artwork will be printed by a specific print shop that only accepts CMYK. / The wall space has warm lighting that tends toward yellow — that needs to be factored into the colors." oninput="updateCount()"></textarea>
+    </div>
+  </div>
+
+  <!-- CLOSING NOTE -->
+  <div class="closing">
+    <div class="closing-label">✦ A final note</div>
+    <p>There are no right or wrong answers — only honest ones. The more detail you share about the project, <strong>the faster and more precise the delivery will be.</strong> After receiving your briefing, I'll get in touch within 2 business days to align next steps.</p>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-area">
+    <button type="submit" class="btn-submit">✦ Send Briefing ✦</button>
+    <button type="button" class="btn-copy" onclick="copyAnswers()">Copy answers (alternative)</button>
+    <p class="submit-note">Clicking "Send" delivers your answers directly to Rafael's inbox.<br>The copy button is an alternative if you'd rather send them via WhatsApp or email.</p>
+    <div class="success-msg" id="successMsg">
+      <p>✦ Briefing received — thank you for your trust. I'll be in touch within 2 business days. <strong>— Rafael Gomes · DOONE STUDIO</strong></p>
+    </div>
+  </div>
+
+</form>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <span>© <span id="ano"></span> DOONE STUDIO</span>
+  <a href="https://rafaeldoone.com" target="_blank">rafaeldoone.com</a>
+</footer>
+
+<script>
+  document.getElementById('ano').textContent = new Date().getFullYear();
+
+  window.addEventListener('scroll', function() {
+    var doc = document.documentElement;
+    var prog = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progressBar').style.width = prog + '%';
+  });
+
+  function toggleChip(el, groupId, hiddenId) {
+    el.classList.toggle('selected');
+    var selected = [...document.querySelectorAll('#' + groupId + ' .chip.selected')].map(c => c.textContent);
+    document.getElementById(hiddenId).value = selected.join(', ');
+    var outroInput = document.getElementById('outro_' + groupId);
+    if (outroInput) {
+      outroInput.style.display = selected.includes('Outro') ? 'block' : 'none';
+    }
+    updateCount();
+  }
+
+  function showContactField() {
+    var selected = document.querySelector('input[name="17_contato"]:checked');
+    var campo = document.getElementById('campo_contato');
+    if (selected && (selected.value === 'WhatsApp' || selected.value === 'Email')) {
+      campo.style.display = 'block';
+      campo.placeholder = selected.value === 'WhatsApp' ? 'Your number with area code...' : 'Your email address...';
+    } else {
+      campo.style.display = 'none';
+    }
+  }
+
+  function updateCount() {
+    var count = 0;
+    var form = document.getElementById('briefingForm');
+
+    form.querySelectorAll('textarea, input[type="text"]').forEach(function(el) {
+      if (el.value.trim().length > 2) count++;
+    });
+
+    var radioGroups = {};
+    form.querySelectorAll('input[type="radio"]').forEach(function(r) {
+      if (!radioGroups[r.name]) radioGroups[r.name] = false;
+      if (r.checked) radioGroups[r.name] = true;
+    });
+    Object.values(radioGroups).forEach(function(v) { if (v) count++; });
+
+    ['chips_tipo','chips_objetivo','chips_formato'].forEach(function(id) {
+      if (document.querySelectorAll('#' + id + ' .chip.selected').length > 0) count++;
+    });
+
+    document.getElementById('countDisplay').textContent = Math.min(count, 18);
+  }
+
+  document.getElementById('briefingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    var data = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(function(r) {
+      if (r.ok) {
+        document.getElementById('successMsg').classList.add('show');
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      } else {
+        alert('Error sending. Try using the "Copy answers" button and send it to me by email.');
+      }
+    }).catch(function() {
+      alert('No connection. Use the "Copy answers" button and send it to me by email.');
+    });
+  });
+
+  /* box inteiro clicável */
+  document.querySelectorAll('.radio-item').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') return;
+      var input = item.querySelector('input[type="radio"], input[type="checkbox"]');
+      if (input) input.click();
+    });
+  });
+
+  function copyAnswers() {
+    var lines = ['CUSTOM ART & COMMISSIONS BRIEFING — DOONE STUDIO', '='.repeat(44), ''];
+    var form = document.getElementById('briefingForm');
+
+    var labels = [
+      '01. Type of piece',
+      '02. Surface or material',
+      '03. Size or dimension',
+      '04. Text or phrase',
+      '05. Needs to follow brand identity',
+      '06. Purpose of the piece',
+      '07. Reproduction or one-of-a-kind',
+      '08. Audience',
+      '09. Visual references',
+      '10. Feeling or atmosphere',
+      '11. Color preferences',
+      '12. What they don\'t want',
+      '13. File format',
+      '14. Exclusivity',
+      '15. Deadline',
+      '16. Budget',
+      '17. Preferred contact',
+      '18. Additional notes'
+    ];
+
+    var fieldNames = [
+      '01_tipo_peca','02_suporte','03_tamanho','04_texto','05_marca',
+      '06_objetivo','07_reproducao','08_publico','09_referencias','10_sentimento',
+      '11_cores','12_nao_quero','13_formato_arquivo','14_exclusividade',
+      '15_prazo','16_orcamento','17_contato','18_observacoes'
+    ];
+
+    fieldNames.forEach(function(name, i) {
+      var el = form.querySelector('[name="' + name + '"]');
+      var val = '';
+      if (el) {
+        if (el.type === 'hidden') {
+          val = el.value || '(not filled)';
+        } else {
+          val = el.value.trim() || '(not filled)';
+        }
+      } else {
+        var checked = form.querySelector('input[name="' + name + '"]:checked');
+        val = checked ? checked.value : '(not filled)';
+      }
+      lines.push(labels[i]);
+      lines.push(val);
+      lines.push('');
+    });
+
+    lines.push('='.repeat(44));
+    lines.push('Sent via DOONE STUDIO briefing · rafaeldoone.com');
+
+    navigator.clipboard.writeText(lines.join('\n')).then(function() {
+      var btn = document.querySelector('.btn-copy');
+      var orig = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      setTimeout(function() { btn.textContent = orig; }, 2500);
+    });
+  }
+</script>
+</body>
+</html>
